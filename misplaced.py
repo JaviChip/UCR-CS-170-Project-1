@@ -31,7 +31,7 @@ class Problem:
                if (i, j) != mapping[tile]:
                    h += 1
 
-       return print(float(h))  # Return the count as a float
+       return print(int(h))  # Return the count as a float
 
 
 puzzle = [
