@@ -16,7 +16,7 @@ def main ():
 
         print ("\n  You have selected the Default puzzle:\n \n  The following is the initial state \n ")
 
-        initialState = [[8,7,1], [6, 0, 2], [5,4,3]]
+        initialState = [[1,2,3], [4, 5, 6], [7,0,8]]
 
         for row in initialState:
 
@@ -57,6 +57,8 @@ def main ():
 
             # TO DO :    
             # Call Problem Function Here
+            problem = Problem(initialState, goalState, selected_algorithm);
+            problem.solve()
 
             print("\n  You Selected: " + str(selected_algorithm) + "\n")
 
