@@ -13,3 +13,19 @@ class Node:
 
         self.depth = depth
 
+
+    # find function in order to find x, y coordinates for euclidian distance
+
+    def find(self, current_state, target):
+
+        for i in range(len(current_state)):
+
+            for j in range(len(current_state[i])):
+
+                if current_state[i][j] == target:
+
+                    return i, j
+                
+        return None, None
+
+
