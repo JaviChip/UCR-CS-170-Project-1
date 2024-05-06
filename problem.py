@@ -78,3 +78,59 @@ class Problem:
         self.goalState = goalState
         
         self.heuristic = heuristic
+
+
+    # Calculates misplaced tile heurisitic value h(n)  
+
+    def misplaced(self, node):
+
+        count = 0
+
+        for i in range(len(node.state)):
+
+            for j in range(len(node.state[i])):
+
+                if node.state[i][j] != 0 and node.state[i][j] != self.goalState[i][j]:
+
+                    count += 1
+
+        return count
+    
+    # calculates euclidean distance value h(n) 
+    
+    def euclidean(self, node):
+        distance = 0
+        state_size = len(node.state)  # Assuming the puzzle is square, so len(node.state) represents both rows and columns
+        target_state = [
+            [1, 2, 3],
+            [4, 5, 6],
+            [7, 8, 0]
+        ]
+
+        for i in range(state_size):
+
+            for j in range(state_size):
+
+                currNum = node.state[i][j]
+
+                # Ignore the empty cell (0)
+                if currNum == 0:
+                    continue
+
+                # Calculate the expected position (goal state) of the current number
+                expected_row = (currNum - 1) // state_size
+
+                expected_col = (currNum - 1) % state_size
+
+                # Calculate the Euclidean distance between the current and expected positions
+                row_sqrdDiff = (i - expected_row) ** 2
+                col_sqrdDiff = (j - expected_col) ** 2
+
+                euclidean_distance = (row_sqrdDiff + col_sqrdDiff) ** 0.5
+
+                # Add the Euclidean distance to the total distance
+                distance += euclidean_distance
+
+        return distance
+
+
