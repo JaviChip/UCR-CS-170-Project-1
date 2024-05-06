@@ -69,6 +69,34 @@ class Problem:
         else:
 
             return None
+        
+    @staticmethod
+
+    def expand_node (node):
+
+        successor_nodes = []
+
+        i, j = node.find(node.state, 0)
+        
+        # Define move functions
+        move_functions = [
+
+            ("up", Problem.move_up),
+            ("down", Problem.move_down),
+            ("left", Problem.move_left),
+            ("right", Problem.move_right)
+        ]
+        
+        for direction, move_func in move_functions:
+
+            new_state = move_func(node.state, i, j)
+
+            if new_state is not None and new_state != node.state:
+                
+                successor_nodes.append(Node(new_state, node, node.depth + 1, node.heuristic))
+
+        return successor_nodes
+
 
     
     def __init__(self, initialState, goalState = None, heuristic = None):
@@ -132,5 +160,27 @@ class Problem:
                 distance += euclidean_distance
 
         return distance
+    
+    def calculate_Heuristic(self, node: Node):
+
+        # 1 => Uniform Cost Search == 0
+        # 2 => Missing Tile Heuristic 
+        # 3 => Eucledian Distance Heursitic
+
+        if self.heuristic == 1:
+
+            return 0
+        
+        elif self.heuristic == 2:
+
+            return self.misplaced(node)
+        
+        elif self.heuristic == 3:
+
+            return self.euclidean(node)
+        
+        else:
+
+            return 0
 
 
