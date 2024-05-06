@@ -14,6 +14,19 @@ class Node:
         self.depth = depth
 
 
+
+    # Overides equal comparison function
+    def __eq__(self, other):
+
+        return self.state == other.state
+
+    # Used to comapre cost of function with one another
+
+    def __lt__(self, other):
+
+        return (self.heuristic + self.depth) < (other.heuristic + other.depth)
+
+
     # find function in order to find x, y coordinates for euclidian distance
 
     def find(self, current_state, target):
@@ -27,5 +40,10 @@ class Node:
                     return i, j
                 
         return None, None
+    
+    def printState(self):
+        
+        for row in self.state:
+            print("  " + "  " + "  " + "  " + " ".join(str(num) for num in row))
 
 

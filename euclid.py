@@ -9,9 +9,9 @@ def print_puzzle(curr_state: List[List[int]]) -> None:
     print()
 
 class Problem:
-    def __init__(self, puzzle: List[List[int]], algorithm: int) -> None:
+    def __init__(self, puzzle: List[List[int]], solverithm: int) -> None:
         self.puzzle = puzzle
-        if algorithm == 3:
+        if solverithm == 3:
             self.a_star_euclid(puzzle)
 
     def find_blank_tile(self, curr_state: List[List[int]]) -> List[int]:

@@ -1,6 +1,6 @@
 #UI
 
-
+from problem import Problem
 
 def main ():
 
@@ -16,7 +16,7 @@ def main ():
 
         print ("\n  You have selected the Default puzzle:\n \n  The following is the initial state \n ")
 
-        initialState = [[8,7,1], [6, 0, 2], [5,4,3]]
+        initialState = [[1,0,3], [4, 2, 6], [7,5,8]]
 
         for row in initialState:
 
@@ -46,6 +46,9 @@ def main ():
 
             print("\n  You Selected: " + str(selected_algorithm) + "\n")
 
+            solve = Problem(initialState, goalState, 1)
+            solve.search()
+
         elif selected_algorithm == 2:
 
             # TO DO :
@@ -53,12 +56,18 @@ def main ():
 
             print("\n  You Selected: " + str(selected_algorithm) + "\n")
 
+            solve = Problem(initialState, goalState, 2)
+            solve.search()
+
         elif selected_algorithm == 3:
 
             # TO DO :    
             # Call Problem Function Here
 
             print("\n  You Selected: " + str(selected_algorithm) + "\n")
+
+            solve = Problem(initialState, goalState, 3)
+            solve.search()
 
         else:
             print("\n  Invalid Choice Entry -> END OF PROGRAM\n")
@@ -137,17 +146,26 @@ def main ():
 
             print("\n  You Selected: " + str(selected_algorithm) + "\n")
 
+            solve = Problem(initialState, goalState, 1)
+            solve.search()
+
         elif selected_algorithm == 2:
 
             # TO DO: Call Problem Function Here
 
             print("\n  You Selected: " + str(selected_algorithm) + "\n")
 
+            solve = Problem(initialState, goalState, 2)
+            solve.search()
+
         elif selected_algorithm == 3:
 
             # TO DO: Call Problem Function Here
 
             print("\n  You Selected: " + str(selected_algorithm) + "\n")
+
+            solve = Problem(initialState, goalState, 3)
+            solve.search()
 
         else:
             

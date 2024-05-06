@@ -1,5 +1,8 @@
+import math
 from node import Node
-import copy
+import heapq as pq
+from collections import defaultdict
+
 
 
 class Problem:
@@ -92,7 +95,7 @@ class Problem:
             new_state = move_func(node.state, i, j)
 
             if new_state is not None and new_state != node.state:
-                
+
                 successor_nodes.append(Node(new_state, node, node.depth + 1, node.heuristic))
 
         return successor_nodes
@@ -182,5 +185,115 @@ class Problem:
         else:
 
             return 0
+        
+    # calculates if a puzzle is unsolvable 
+    # In the context of a sliding puzzle, an inversion
+    # occurs when a tile precedes another tile with a lower number but is placed after it in the goal state.
+        
+    def is_solvable(self):
+
+        inversion_count = 0
+
+        flattened_state = sum(self.initialState, [])
+
+        for i in range(len(flattened_state)):
+
+            for j in range(i + 1, len(flattened_state)):
+
+                if flattened_state[i] != 0 and flattened_state[j] != 0 and flattened_state[i] > flattened_state[j]:
+
+                    inversion_count += 1
+
+        return inversion_count % 2 == 0
+    
+    # Search Algo
+
+    def search(self):
+
+        if not self.is_solvable():
+
+            print("No solution: Puzzle is unsolvable.")
+
+            return False, 0, 0
+
+        initial_node = Node(self.initialState)
+
+        goal_node = Node(self.goalState)
+
+        # Initialize an empty priority queue to store nodes with their respective priorities
+
+        frontier = []
+
+        # Add the initial node to the priority queue with its priority based on heuristic and depth
+
+        pq.heappush(frontier, (initial_node.heuristic + initial_node.depth, initial_node))
+
+        # Keep track of explored nodes to avoid repetition
+
+        explored_set = defaultdict(bool)
+
+        max_queue_size = 1
+
+        # Start the search process
+
+        while True:
+
+            # Check if the frontier is empty, indicating no solution
+
+            if not frontier:
+
+                print("No solution")
+
+                print("Max Queue size: ", max_queue_size)
+
+                print("Explored Nodes: ", len(explored_set))
+
+                return (False, max_queue_size, len(explored_set))
+
+            # Update the maximum queue size
+
+            max_queue_size = max(max_queue_size, len(frontier))
+
+            # Dequeue the node with the lowest priority from the priority queue
+
+            _, curr_node = pq.heappop(frontier)
+
+            # Print the current node's state being expanded
+
+            print("\nThe best state to expand with g(n) =", int(curr_node.depth), "and h(n) =", math.ceil(curr_node.heuristic), "is...")
+            curr_node.printState()
+
+            explored_set[tuple(sum(curr_node.state, []))] = True
+
+            # Check if the goal state has been reached
+            if curr_node == goal_node:
+
+                print("Solution found at depth", curr_node.depth)
+
+                print("Max queue size:", max_queue_size)
+
+                print("Nodes expanded:", len(explored_set))
+
+                return (True, max_queue_size, len(explored_set))
+
+            else:
+                # Expand the current node to generate candidate nodes
+                successor_nodes = Problem.expand_node(curr_node)
+
+            
+                for node in successor_nodes:
+                  
+                    state_signature = tuple(sum(node.state, []))
+
+                    if node not in [n[1] for n in frontier] and not explored_set[state_signature]:
+
+                        # Calculate the heuristic value for the candidate node
+                        node.heuristic = self.calculate_Heuristic(node)
+
+                        # Add the candidate node to the frontier with its priority
+                        pq.heappush(frontier, (node.heuristic + node.depth, node))
+
+
+        
 
 
